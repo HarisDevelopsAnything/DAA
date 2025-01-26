@@ -25,8 +25,8 @@ struct Pair ClosestPair(struct Point* P, int n){
                 min= dis;
                 p.p1= P[i];
                 p.p2= P[j];
-                p.pn1= i;
-                p.pn2= j;
+                p.pn1= i+1;
+                p.pn2= j+1;
                 p.dist= dis;
             }
         }
