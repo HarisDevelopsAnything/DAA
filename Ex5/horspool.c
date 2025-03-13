@@ -13,10 +13,10 @@ void makeShiftTable(int* arr, char* p,int m){
 }
 int main(){
     int* arr= (int*)malloc(sizeof(int)*27);
-    char t[]= "FOR GEEKS";
-    int n=9;
-    char p[]= "GEEK";
-    int m= 4;
+    char t[]= "MEPCO BOYS";
+    int n=10;
+    char p[]= "BOY";
+    int m= 3;
     int shift=1;
     int found=0;
     int pos;
