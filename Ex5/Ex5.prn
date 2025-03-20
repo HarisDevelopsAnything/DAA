@@ -1,0 +1,46 @@
+Script started on 2025-03-14 20:23:30+05:30 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="144" LINES="11"]
+]0;harisdevelops@a715-41g:~/DAA/Ex5[?2004h[harisdevelops@a715-41g Ex5]$ cc count.c
+[?2004l]0;harisdevelops@a715-41g:~/DAA/Ex5[?2004h[harisdevelops@a715-41g Ex5]$ ./a.ut
+[?2004lbash: ./a.ut: No such file or directory
+]0;harisdevelops@a715-41g:~/DAA/Ex5[?2004h[harisdevelops@a715-41g Ex5]$ ./a.out
+[?2004lEnter the no. of elements: 5
+Enter 6 elements: 
+5
+4
+3
+2
+1
+Count array: 
+0 1 2 3 4
+4 0 0 0 0 
+4 3 0 0 0 
+4 3 2 0 0 
+4 3 2 1 0 
+4 3 2 1 0 
+Sorted array:
+1 2 3 4 5 
+]0;harisdevelops@a715-41g:~/DAA/Ex5[?2004h[harisdevelops@a715-41g Ex5]$ cc horspool.c
+[?2004l]0;harisdevelops@a715-41g:~/DAA/Ex5[?2004h[harisdevelops@a715-41g Ex5]$ ./a.out
+[?2004lEnter the text: mepco     MEOC  PCO BOYS
+Enter the pattern: BOY
+MEPCO BOYS
+BOY
+   BOY
+      BOY
+Substring found at index 6
+]0;harisdevelops@a715-41g:~/DAA/Ex5[?2004h[harisdevelops@a715-41g Ex5]$ ./A.OUT
+[?2004lbash: ./A.OUT: No such file or directory
+]0;harisdevelops@a715-41g:~/DAA/Ex5[?2004h[harisdevelops@a715-41g Ex5]$ ./a.out
+[?2004lEnter the text: h HARIS
+Enter the pattern: IS
+HARIS
+IS
+  IS
+   IS
+Substring found at index 3
+]0;harisdevelops@a715-41g:~/DAA/Ex5[?2004h[harisdevelops@a715-41g Ex5]$ EXIT
+[?2004lbash: EXIT: command not found
+]0;harisdevelops@a715-41g:~/DAA/Ex5[?2004h[harisdevelops@a715-41g Ex5]$ exit
+[?2004lexit
+
+Script done on 2025-03-14 20:25:23+05:30 [COMMAND_EXIT_CODE="127"]

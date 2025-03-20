@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include<string.h>
 void makeShiftTable(int* arr, char* p,int m){
     int i;
     for(i=0;i<27;i++){
@@ -13,10 +13,16 @@ void makeShiftTable(int* arr, char* p,int m){
 }
 int main(){
     int* arr= (int*)malloc(sizeof(int)*27);
-    char t[]= "MEPCO BOYS";
-    int n=10;
-    char p[]= "BOY";
-    int m= 3;
+    char* t= (char*)malloc(sizeof(char)*100);
+    printf("Enter the text: ");
+    fgets(t,100,stdin);
+    int n= strlen(t)-1;
+    t= realloc(t, (n+1)*sizeof(char));
+    char* p= (char*)malloc(sizeof(char)*100);
+    printf("Enter the pattern: ");
+    fgets(p,100,stdin);
+    int m= strlen(p)-1;
+    p= realloc(p, (m+1)*sizeof(char));
     int shift=1;
     int found=0;
     int pos;
@@ -24,12 +30,18 @@ int main(){
     int match=0;
     makeShiftTable(arr,p,m);
     int i=0,j=0;
+    printf("%s",t);
     while(!found && i<n-m+1){
         pos=i;
         j=i+m-1;
         c = m-1;
+        int k;
+        for(k=0;k<pos;k++){
+            printf(" ");
+        }
+        printf("%s",p);
         while(j>=i){
-            printf("Cmp %c and %c\n",t[j]==' '?'_':t[j],p[c]);
+            //printf("Cmp %c and %c\n",t[j]==' '?'_':t[j],p[c]);
             if(t[j]!=p[c]){
                 if((int)t[j]!=32)
                 shift = arr[(int)t[j]-65];
