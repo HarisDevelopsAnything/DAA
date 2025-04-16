@@ -1,45 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <limits.h>
 
-/* Returns true if there is a path from source 's' to sink 't' in
-   residual graph. Also fills parent[] to store the path */
-bool bfs(int **rGraph, int V, int s, int t, int parent[]) {
-    // Create a visited array and mark all vertices as not visited
-    bool *visited = (bool*)malloc(V * sizeof(bool));
-    for (int i = 0; i < V; i++) {
-        visited[i] = false;
-    }
-
-    // Create a queue, enqueue source vertex and mark source vertex as visited
-    int *queue = (int*)malloc(V * sizeof(int));
-    int front = 0, rear = 0;
+// DFS to find augmenting path
+int dfs(int **rGraph, int V, int s, int t, int parent[], int visited[]) {
+    // Mark the current node as visited
+    visited[s] = 1;
     
-    // Enqueue source vertex
-    queue[rear++] = s;
-    visited[s] = true;
-    parent[s] = -1;
-
-    // Standard BFS loop
-    while (front < rear) {
-        int u = queue[front++];
-
-        for (int v = 0; v < V; v++) {
-            if (visited[v] == false && rGraph[u][v] > 0) {
-                queue[rear++] = v;
-                parent[v] = u;
-                visited[v] = true;
-            }
+    // If we reached the sink, return true
+    if (s == t)
+        return 1;
+    
+    // Try all adjacent vertices
+    for (int v = 0; v < V; v++) {
+        // If vertex is not visited and has capacity
+        if (visited[v] == 0 && rGraph[s][v] > 0) {
+            // Store this path
+            parent[v] = s;
+            
+            // Recursively find path from v to t
+            if (dfs(rGraph, V, v, t, parent, visited))
+                return 1;
         }
     }
-
-    // Free dynamically allocated memory
-    free(visited);
-    free(queue);
-
-    // We can reach sink from source if visited[t] becomes true
-    return (parent[t] != -1);
+    
+    // No path found from s to t
+    return 0;
 }
 
 // Returns the maximum flow from s to t in the given graph
@@ -56,20 +41,26 @@ int fordFulkerson(int **graph, int V, int s, int t) {
         }
     }
 
-    int *parent = (int*)malloc(V * sizeof(int)); // Array filled by BFS to store path
-    
-    // Initialize all parent values as -1 (no parent assigned yet)
-    for (int i = 0; i < V; i++) {
-        parent[i] = -1;
-    }
+    int *parent = (int*)malloc(V * sizeof(int)); // Array to store path
+    int *visited = (int*)malloc(V * sizeof(int)); // Array to track visited nodes
     
     int max_flow = 0; // Initialize the maximum flow
 
     // Augment the flow while there is a path from source to sink
-    while (bfs(rGraph, V, s, t, parent)) {
+    while (1) {
+        // Initialize visited and parent arrays
+        for (int i = 0; i < V; i++) {
+            visited[i] = 0;
+            parent[i] = -1;
+        }
+        
+        // Try to find an augmenting path using DFS
+        if (!dfs(rGraph, V, s, t, parent, visited))
+            break; // No more augmenting paths
+            
         // Find minimum residual capacity of the edges along the
-        // path found by BFS
-        int path_flow = INT_MAX;
+        // path found by DFS
+        int path_flow = 99999;
         for (v = t; v != s; v = parent[v]) {
             u = parent[v];
             path_flow = (rGraph[u][v] < path_flow) ? rGraph[u][v] : path_flow;
@@ -85,15 +76,11 @@ int fordFulkerson(int **graph, int V, int s, int t) {
 
         // Add path flow to overall flow
         max_flow += path_flow;
-        
-        // Reset parent array for next BFS
-        for (int i = 0; i < V; i++) {
-            parent[i] = -1;
-        }
     }
 
     // Free dynamically allocated memory
     free(parent);
+    free(visited);
     for (u = 0; u < V; u++) {
         free(rGraph[u]);
     }
@@ -108,7 +95,7 @@ int main() {
     int V, s, t;
     
     // Get the number of vertices
-    printf("Enter the number of vertices in the graph: ");
+    printf("Enter the no. of vertices:");
     scanf("%d", &V);
     
     // Dynamically allocate memory for the graph
@@ -120,15 +107,23 @@ int main() {
     // Get the source and sink vertices
     printf("Enter the source vertex (0 to %d): ", V-1);
     scanf("%d", &s);
-    printf("Enter the sink vertex (0 to %d): ", V-1);
+    printf("Enter the sink vertex (0 to %d, other than %d): ", V-1, s);
     scanf("%d", &t);
+    if(t==s){
+        printf("Source and sink can't be same.\n");
+        exit(0);
+    }
     
     // Input the capacity of each edge
-    printf("Enter the capacity of each edge (enter 0 if there's no edge):\n");
+    printf("Enter the capacity of each edge (enter 0- no edge):\n");
     for (int i = 0; i < V; i++) {
         for (int j = 0; j < V; j++) {
-            printf("Capacity from vertex %d to vertex %d: ", i, j);
-            scanf("%d", &graph[i][j]);
+            if(i != j) {
+                printf("Capacity from vertex %d to vertex %d: ", i, j);
+                scanf("%d", &graph[i][j]);
+            }
+            else
+                graph[i][j] = 0;
         }
     }
     
